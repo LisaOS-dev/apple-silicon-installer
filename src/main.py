@@ -4,6 +4,7 @@ import os, os.path, shlex, subprocess, sys, time, termios, json, getpass, report
 from dataclasses import dataclass
 
 import system, osenum, stub, diskutil, osinstall, gravity_firmware, m1n1
+import lisa_verify
 from util import *
 
 PART_ALIGN = psize("1MiB")
@@ -52,7 +53,9 @@ IPSW_VERSIONS = [
 class InstallerMain:
     def __init__(self, version):
         self.version = version
-        self.data = json.load(open("installer_data.json"))
+        # Lisa: installer_data.json is the signed one, or nothing starts.
+        self.targets = lisa_verify.load_targets("targets.json")
+        self.data = lisa_verify.load_installer_data("installer_data.json", self.targets)
         self.credentials_validated = False
         self.expert = False
         self.ipsw = None
@@ -864,7 +867,16 @@ class InstallerMain:
 
         return True
 
+    def verify_downloads(self):
+        # Lisa: every OS package is read whole and checked against the signed
+        # targets before a question is asked or a disk is read or written.
+        for template in self.data["os_list"]:
+            if template.get("package"):
+                p_progress(f"Checking {template['package']} against the signed release...")
+                lisa_verify.verify_package(template, self.targets)
+
     def main(self):
+        self.verify_downloads()
         print()
         p_message(f"Welcome to the {DISTRO} installer!")
         print()
@@ -1139,6 +1151,10 @@ if __name__ == "__main__":
         installer_version = open("version.tag", "r").read().strip()
         logging.info(f"Version: {installer_version}")
         InstallerMain(installer_version).main()
+    except lisa_verify.NotSigned as e:
+        logging.error(f"Refused: {e.detail}")
+        p_error(str(e))
+        sys.exit(1)
     except KeyboardInterrupt:
         print()
         logging.info("KeyboardInterrupt")
