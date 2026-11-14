@@ -16,7 +16,6 @@ LIBFFI_TARGET_OS="macOS 26"
 LIBFFI_PKG="libffi-$LIBFFI_VER-macos.tar.gz"
 
 M1N1="$PWD/bootloader"
-ARTWORK="$PWD/artwork"
 FIRMWARE_TOOLS="$PWD/gravity_firmware"
 SRC="$PWD/src"
 DL="$PWD/dl"
@@ -103,21 +102,18 @@ echo "Copying files..."
 cp -r "$SRC"/* "$PACKAGE/"
 rm -f "$PACKAGE/gravity_firmware"
 cp -r "$FIRMWARE_TOOLS" "$PACKAGE/"
-mkdir -p "$PACKAGE/licenses/gravity-artwork"
-cp "$ARTWORK/LICENSE" "$ARTWORK/README.md" "$ARTWORK/TRADEMARKS.md" \
-   "$PACKAGE/licenses/gravity-artwork/"
-if [ -r "$LOGO" ]; then
+# Lisa's artwork only: Gravity's name and logos are trademarks and never ship
+# here (Gravity's TRADEMARKS.md). LOGO is Lisa's .icns; without it, no logo.
+if [ -n "${LOGO:-}" ] && [ -r "$LOGO" ]; then
     cp "$LOGO" "$PACKAGE/logo.icns"
-else
-    cp "$ARTWORK/logos/icns/GravityLinux_logomark.icns" "$PACKAGE/logo.icns"
 fi
 mkdir -p "$PACKAGE/boot"
 cp "$M1N1_STAGE1" "$PACKAGE/boot/m1n1.bin"
 
-# Match m1n1's custom-logo payload format without modifying its source tree.
-# A supplied M1N1_STAGE1 (for example from the RPM) is already branded.
-if [ "${BUILT_STAGE1:-0}" = 1 ]; then
-    sh "$SRC/../tools/append-boot-logo.sh" "$PACKAGE/boot/m1n1.bin" "$ARTWORK"
+# m1n1's boot logo is Lisa's when LISA_ARTWORK names Lisa's artwork tree;
+# Gravity's is never appended.
+if [ "${BUILT_STAGE1:-0}" = 1 ] && [ -n "${LISA_ARTWORK:-}" ]; then
+    sh "$SRC/../tools/append-boot-logo.sh" "$PACKAGE/boot/m1n1.bin" "$LISA_ARTWORK"
 fi
 
 echo "Extracting libffi..."

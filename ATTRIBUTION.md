@@ -13,11 +13,11 @@ That installer is itself of the Asahi Linux installer's lineage.
 - Lisa's additions are under the same MIT licence.
 
 This installer is based on Gravity Linux's installer. It is not Gravity Linux,
-and neither Gravity Linux nor the Asahi Linux project endorses it. It may not
-be distributed until Gravity's name, logos and artwork have left it
-(TRADEMARKS.md: modified distributions "should use their own name and logos");
-as imported on 2026-11-14 they have not: `util.py` DISTRO, `main.py` and
-`reporting.py` strings, and `build.sh`'s logo and m1n1 boot-logo payload are
-still Gravity's. Identifiers Gravity's boot chain
+and neither Gravity Linux nor the Asahi Linux project endorses it. Gravity's
+name, logos and artwork have left it (TRADEMARKS.md: modified distributions
+"should use their own name and logos"): `util.py` DISTRO, the `main.py` and
+`reporting.py` strings name Lisa, the artwork submodule is removed, and
+`build.sh` ships only Lisa's logo and m1n1 boot-logo payload, never Gravity's.
+Identifiers Gravity's boot chain
 reads (`chosen.gravity,efi-system-partition`, the `gravity` directory on the
 EFI partition, the `gravity_firmware` module) are interfaces, not branding.

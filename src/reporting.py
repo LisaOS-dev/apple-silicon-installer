@@ -87,8 +87,8 @@ def report_inner(m, url, tag):
 
     print()
     print()
-    p_question("Help us improve Gravity Linux!")
-    p_message("We'd love to know how many people are installing Gravity and on what")
+    p_question(f"Help us improve {DISTRO}!")
+    p_message(f"We'd love to know how many people are installing {DISTRO} and on what")
     p_message("kind of hardware. Would you mind sending a one-time installation")
     p_message("report to us?")
     print()

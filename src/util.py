@@ -10,8 +10,8 @@ else:
 COMPRESSION_LZFSE = 0x801
 CHUNK_SIZE = 0x10000
 
-DISTRO = os.environ.get("DISTRO", "Gravity Linux")
-DISTRO_DOCS = os.environ.get("DISTRO_DOCS", "https://gravitylinux.org/docs")
+DISTRO = os.environ.get("DISTRO", "Lisa")
+DISTRO_DOCS = os.environ.get("DISTRO_DOCS", "https://docs.lisaos.dev/system/install#apple-silicon")
 
 def ssize(v):
     suffixes = ["B", "KB", "MB", "GB", "TB"]

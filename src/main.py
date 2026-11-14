@@ -779,7 +779,7 @@ class InstallerMain:
             p_message("  any pending macOS upgrades and visit this link to learn how to manually")
             p_message("  delete Time Machine snapshots:")
             print()
-            p_plain( f"    {col(BLUE, BRIGHT)}https://gravitylinux.org/docs/timemachine{col()}")
+            p_plain( f"    {col(BLUE, BRIGHT)}https://docs.lisaos.dev/system/install#apple-silicon{col()}")
             print()
 
             if avail < 2 * PART_ALIGN:
@@ -893,7 +893,7 @@ class InstallerMain:
         self.expert = False
         if os.environ.get("EXPERT", None):
             p_message("By default, this installer will hide certain advanced options that")
-            p_message("are only useful for Gravity Linux developers. You can enable expert mode")
+            p_message("are only useful for Lisa developers. You can enable expert mode")
             p_message("to show them. Do not enable this unless you know what you are doing.")
             p_message("Please do not file bugs if things go wrong in expert mode.")
             self.expert = self.yesno("Enable expert mode?")
@@ -908,10 +908,10 @@ class InstallerMain:
         self.device = DEVICES.get(self.sysinfo.device_class, None)
         if not self.chip_min_ver or not self.device or (self.device.expert_only and not self.expert):
             p_error("This device is not supported yet!")
-            p_error("Gravity Linux supports only the M4 Mac mini (j773gap) and the")
+            p_error("Lisa supports only the M4 Mac mini (j773gap) and the")
             p_error("13-inch M4 MacBook Air (j713ap).")
             print()
-            p_error("   https://gravitylinux.org/docs/hardware")
+            p_error("   https://docs.lisaos.dev/system/bases")
             print()
             sys.exit(1)
 
